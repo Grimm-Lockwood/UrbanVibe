@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Urban Vibe</title>
+
+  <!-- Link to CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">UV</div>
+      <div>
+        <h1>Urban Vibe</h1>
+        <div class="tag">Hoodies • Street • Cozy</div>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
+      <div class="shipping small">Free shipping over $50</div>
+      <button id="openCart" class="cart-btn">Cart <span id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <h2 class="hero-title">Fast fits. Loud vibe.</h2>
+        <p class="hero-sub">High-energy hoodies for people who move. Limited runs, premium fabric, bold style.</p>
+        <div class="hero-actions">
+          <button class="btn primary" onclick="scrollToProducts()">Shop Hoodies</button>
+          <button class="btn ghost" onclick="openContact()">Contact</button>
+        </div>
+      </div>
+
+    <!-- PRODUCTS -->
+    <section id="productsSection" class="products">
+      <h3 class="section-title">Featured Hoodies</h3>
+
+      <div class="grid" id="productGrid">
+        <!-- Product cards: update HOODIE_IMAGE_X placeholders with your links -->
+        <article class="product card" data-price="49.99">
+          <div class="card-media">
+            <img src="https://freshcleantees.com/cdn/shop/files/Black-Hoodie-Model-Front_x600.jpg?v=1734987639" alt="Urban Black Hoodie">
+          </div>
+          <div class="card-body">
+            <h4 class="product-title">Urban Black Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$49.99</div>
+              <button class="btn add" onclick="addToCart('Urban Black Hoodie', 'https://freshcleantees.com/cdn/shop/files/Black-Hoodie-Model-Front_x600.jpg?v=1734987639', 49.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="54.99">
+          <div class="card-media"><img src="https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center" alt="Urban Grey Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Urban Grey Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$54.99</div>
+              <button class="btn add" onclick="addToCart('Urban Grey Hoodie', 'https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center', 54.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="59.99">
+          <div class="card-media"><img src="https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225" alt="Retro Lightblue Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Retro Lightblue Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$59.99</div>
+              <button class="btn add" onclick="addToCart('Retro Lightblue Hoodie', 'https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225', 59.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="42.99">
+          <div class="card-media"><img src="https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp" alt="Oversized White Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Oversized White Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$42.99</div>
+              <button class="btn add" onclick="addToCart('Oversized White Hoodie', 'https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp', 42.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="47.99">
+          <div class="card-media"><img src="https://www.mytheresa.com/media/1094/1238/100/87/P00834915_b2.jpg" alt="Oversized Brown Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Oversized Brown Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$47.99</div>
+              <button class="btn add" onclick="addToCart('Frosted Gray Hoodie', 'HOODIE_IMAGE_5', 47.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="52.99">
+          <div class="card-media"><img src="https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/15295828/2021/8/30/955e1cd8-74d4-41ed-82da-23bedfb69f4c1630296211757Cottonhoodie1.jpg" alt="Dark Green Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Dark Green Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$52.99</div>
+              <button class="btn add" onclick="addToCart('Vibe Essential Hoodie', 'HOODIE_IMAGE_6', 52.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="45.99">
+          <div class="card-media"><img src="https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg" alt="Navy Blue Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Navy Blue Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$45.99</div>
+              <button class="btn add" onclick="addToCart('Navy Blue Hoodie', 'https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg', 45.99)">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product card" data-price="55.99">
+          <div class="card-media"><img src="https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg" alt="Orange Hoodie"></div>
+          <div class="card-body">
+            <h4 class="product-title">Orange Hoodie</h4>
+            <div class="card-footer">
+              <div class="price">$55.99</div>
+              <button class="btn add" onclick="addToCart('Orange Hoodie', 'https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg', 55.99)">Add</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>© <span id="year"></span> Urban Vibe — All Rights Reserved</div>
+      <div class="footer-links small">Terms • Privacy • Contact</div>
+    </footer>
+  </main>
+
+  <!-- CART DRAWER -->
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-head">
+      <h4>Your Cart</h4>
+      <button id="closeCart" class="icon-btn">✕</button>
+    </div>
+
+    <div id="cartItems" class="cart-items"></div>
+
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <strong id="subtotal">$0.00</strong>
+      </div>
+
+      <button class="btn primary wide" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT MODAL (client-side simulation) -->
+  <div id="checkoutModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="icon-btn modal-close" id="closeCheckout">✕</button>
+      <h3>Checkout</h3>
+      <form id="checkoutForm">
+        <label>
+          Full name
+          <input name="name" required placeholder="Your name">
+        </label>
+        <label>
+          Email
+          <input name="email" type="email" required placeholder="you@example.com">
+        </label>
+        <label>
+          Address
+          <input name="address" required placeholder="Street, city, country">
+        </label>
+
+        <div class="payment-note small">This is a demo checkout — no payment is processed.</div>
+
+        <button class="btn primary wide" type="submit">Place Order</button>
+      </form>
+      <div id="checkoutThanks" class="checkout-thanks" hidden>
+        <h4>Thank you — order placed!</h4>
+        <p>We emailed the order confirmation (demo).</p>
+        <button class="btn wide" onclick="closeCheckout(true)">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to JS -->
+  <script src="script.js"></script>
+</body>
+</html>
