@@ -26,10 +26,15 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+html, body {
+  height: 100%;
+}
 body {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: var(--bg-800);
+  background: 
+    url('https://images6.alphacoders.com/392/thumb-1920-392263.jpg') no-repeat center center fixed,
+    var(--bg-800); /* fallback/background color */
+  background-size: cover;       /* make image cover entire viewport */
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   position: relative;
@@ -91,11 +96,12 @@ body {
   width: 100%;
   padding: 40px 26px;
   border-radius: 14px;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);      /* keeps frosted effect */
   box-shadow: 0 14px 40px rgba(2,6,23,0.6);
   text-align: center;
-  background: var(--card);
+  background: rgba(11,18,32,0.3);  /* transparent overlay, adjust alpha as needed */
   color: var(--text);
+  transition: background 0.3s ease;
 }
 .hero-title {
   font-size: 36px;
@@ -138,12 +144,14 @@ body {
   padding: 10px 14px;
   border-radius: 12px;
   border: 0;
-  background: var(--card);
+  background: rgba(11,18,32,0.3); /* translucent background */
   color: var(--text);
   font-size: 14px;
+  backdrop-filter: blur(6px);     /* optional: adds glassy blur effect */
+  transition: background 0.3s ease;
 }
 #searchInput::placeholder {
-  color: var(--muted);
+  color: rgba(233,242,255,0.6); /* slightly faded placeholder for better readability */
 }
 #searchBtn {
   padding: 10px 14px;
@@ -161,7 +169,11 @@ body {
 }
 
 /* ---------- Products grid & cards ---------- */
-.section-title{font-size:24px;margin:26px 0;color:var(--text)}
+.section-title {
+  font-size: 24px;
+  margin: 26px 0;
+  color: #f8f8f8; /* changed from var(--text) to black */
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
@@ -367,4 +379,14 @@ body {
   .card-footer .btn.add { width: auto; }
 
   .cart-drawer{width:90vw; right:5vw;}
+}
+/* ---------- Header background image ---------- */
+.site-header {
+  background: 
+    url('Tree.jpg') no-repeat center center / cover,
+    var(--bg-800); /* fallback color for light/dark mode */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(6px); /* keeps your frosted glass effect */
 }
