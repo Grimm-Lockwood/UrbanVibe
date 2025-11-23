@@ -12,55 +12,46 @@ const cartItemsEl = $('#cartItems');
 const subtotalEl = $('#subtotal');
 
 document.addEventListener('DOMContentLoaded', () => {
-  // set year
+  // Set year
   $('#year').textContent = new Date().getFullYear();
 
-  // hydrate UI from cart
+  // Restore theme
+  const savedTheme = localStorage.getItem('uv_theme') || 'dark';
+  if (savedTheme === 'light') document.documentElement.classList.add('light');
+
+  // Hydrate cart UI
   updateCartUI();
 
-  // attach cart open/close
+  // Attach events
   $('#openCart').addEventListener('click', openCart);
   $('#closeCart')?.addEventListener('click', closeCart);
 
-  // checkout
   $('#checkoutBtn').addEventListener('click', openCheckout);
+  $('#closeCheckout').addEventListener('click', () => closeCheckout(false));
 
-  // attach both checkout close buttons
-  const checkoutCloseBtns = [$('#closeCheckout'), $('#checkoutThanks button')].filter(Boolean);
-  checkoutCloseBtns.forEach(btn => btn.addEventListener('click', () => closeCheckout(false)));
-
-  // form submission
   $('#checkoutForm').addEventListener('submit', (e) => {
     e.preventDefault();
     simulatePlaceOrder(new FormData(e.target));
   });
 
-  // theme toggle
   $('#themeToggle').addEventListener('click', toggleTheme);
-  // restore theme
-  const t = localStorage.getItem('uv_theme') || 'dark';
-  if (t === 'light') document.documentElement.classList.add('light');
 
-  // attach tilt effect on product cards
   setupCardTilt();
 
-  // close cart clicking outside
+  // Close cart if clicking outside
   document.body.addEventListener('click', (ev) => {
     const cartDrawer = $('#cartDrawer');
     if (
       cartDrawer.classList.contains('open') &&
       !ev.target.closest('.cart-drawer') &&
       !ev.target.closest('#openCart')
-    ) closeCart();
-  });
-
-  // close checkout modal by clicking overlay
-  $('#checkoutModal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) closeCheckout(false);
+    ) {
+      closeCart();
+    }
   });
 });
 
-/* ---------- Cart functions ---------- */
+/* ---------- Cart ---------- */
 function saveCart() {
   localStorage.setItem('uv_cart', JSON.stringify(cart));
 }
@@ -69,9 +60,12 @@ function addToCart(name, img, price) {
   const idx = cart.findIndex(i => i.name === name);
   if (idx > -1) cart[idx].qty += 1;
   else cart.push({ name, img, price: Number(price), qty: 1 });
+
   saveCart();
   updateCartUI();
-  $('#openCart').animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 180 });
+
+  const cb = $('#openCart');
+  cb.animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 180 });
 }
 
 function updateCartUI() {
@@ -106,7 +100,7 @@ function renderCart() {
     cartItemsEl.appendChild(div);
   });
 
-  const subtotal = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
 }
 
@@ -114,13 +108,19 @@ function increaseQty(i){ cart[i].qty++; saveCart(); updateCartUI(); }
 function decreaseQty(i){ cart[i].qty--; if (cart[i].qty<=0) cart.splice(i,1); saveCart(); updateCartUI(); }
 function removeItem(i){ cart.splice(i,1); saveCart(); updateCartUI(); }
 
-/* ---------- Cart drawer controls ---------- */
+/* ---------- Cart drawer ---------- */
 function openCart(){
-  const drawer = $('#cartDrawer'); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false');
+  const drawer = $('#cartDrawer');
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
 }
-function closeCart(){ const drawer = $('#cartDrawer'); drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+function closeCart(){
+  const drawer = $('#cartDrawer');
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+}
 
-/* ---------- Checkout (client-side demo) ---------- */
+/* ---------- Checkout ---------- */
 function openCheckout(){
   if (!cart.length) {
     alert('Your cart is empty — add something first.');
@@ -129,20 +129,15 @@ function openCheckout(){
   const modal = $('#checkoutModal');
   modal.setAttribute('aria-hidden','false');
   modal.style.opacity = '1';
-  modal.style.pointerEvents = 'auto';
   $('#checkoutForm').style.display = 'block';
   $('#checkoutThanks').hidden = true;
 }
-
 function closeCheckout(success){
   const modal = $('#checkoutModal');
   modal.setAttribute('aria-hidden','true');
-  modal.style.opacity = '0';
-  modal.style.pointerEvents = 'none';
-  $('#checkoutForm').style.display = 'block';
 }
 
-/* ---------- Simulate order placement ---------- */
+/* Simulate order */
 function simulatePlaceOrder(formData){
   $('#checkoutForm').style.display = 'none';
   $('#checkoutThanks').hidden = false;
@@ -152,7 +147,7 @@ function simulatePlaceOrder(formData){
   tinyConfetti();
 }
 
-/* ---------- Tiny confetti effect ---------- */
+/* ---------- Tiny confetti ---------- */
 function tinyConfetti(){
   const count = 30;
   for (let i=0;i<count;i++){
@@ -170,7 +165,7 @@ function tinyConfetti(){
     d.animate([
       { transform: `translateY(0) rotate(${Math.random()*360}deg)`, opacity:1 },
       { transform: `translateY(180px) rotate(${Math.random()*720}deg)`, opacity:0 }
-    ], { duration: 900 + Math.random()*600, easing:'cubic-bezier(.2,.7,.2,1)' });
+    ], { duration: 900 + Math.random()*600, easing:'cubic-bezier(.2,.7,.2,1)' })
     setTimeout(()=> d.remove(), 1800 + Math.random()*800);
   }
 }
@@ -184,7 +179,7 @@ function toggleTheme(){
 /* ---------- Helpers ---------- */
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* ---------- Card tilt effect (mouse) ---------- */
+/* Card tilt */
 function setupCardTilt(){
   const cards = $$('.product.card');
   cards.forEach(card => {
@@ -201,12 +196,12 @@ function setupCardTilt(){
       const scale = 1.025;
       card.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scale})`;
       const img = card.querySelector('.card-media img');
-      if (img) img.style.transform = `translate3d(${dx*6}px,${dy*6}px,0) scale(1.06) rotate(${dx*2}deg)`;
+      if(img) img.style.transform = `translate3d(${dx*6}px,${dy*6}px,0) scale(1.06) rotate(${dx*2}deg)`;
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
       const img = card.querySelector('.card-media img');
-      if (img) img.style.transform = '';
+      if(img) img.style.transform = '';
     });
     card.addEventListener('click', () => {
       card.animate([{ transform: 'scale(0.995)' }, { transform: '' }], { duration: 160 });
@@ -214,9 +209,11 @@ function setupCardTilt(){
   });
 }
 
-/* ---------- Scroll / Contact ---------- */
+/* Scroll + contact */
 function scrollToProducts(){ document.getElementById('productsSection').scrollIntoView({behavior:'smooth'}); }
 function openContact(){ alert('Contact: contact@urbanvibe.com'); }
 
-/* ---------- Accessibility: Escape key closes cart & checkout ---------- */
-document.addEventListener('keydown',(e)=>{ if (e.key==='Escape'){ closeCart(); closeCheckout(false); }});
+/* Escape key closes cart/checkout */
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){ closeCart(); closeCheckout(false); }
+});
