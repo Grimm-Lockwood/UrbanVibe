@@ -1,4 +1,4 @@
-/* ========== Urban Vibe — script.js ========== */
+/* ========== Urban Vibe — script.js (Updated) ========== */
 /* Cart + localStorage, tilt effect for cards, checkout simulation */
 
 /* ---------- Utilities ---------- */
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#closeCart')?.addEventListener('click', closeCart);
 
   // checkout
-  $('#checkoutBtn').addEventListener('click', () => openCheckout());
+  $('#checkoutBtn').addEventListener('click', openCheckout);
   $('#closeCheckout').addEventListener('click', () => closeCheckout(false));
 
   $('#checkoutForm').addEventListener('submit', (e) => {
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartDrawer = $('#cartDrawer');
     if (
       cartDrawer.classList.contains('open') &&
-      !ev.target.closest('.cart-drawer') && // ignore clicks inside drawer
-      !ev.target.closest('#openCart')      // ignore clicks on cart icon
+      !ev.target.closest('.cart-drawer') &&
+      !ev.target.closest('#openCart')
     ) {
       closeCart();
     }
@@ -67,7 +67,6 @@ function addToCart(name, img, price) {
   }
   saveCart();
   updateCartUI();
-  // small add animation on cart button
   const cb = $('#openCart');
   cb.animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 180 });
 }
@@ -84,7 +83,7 @@ function renderCart() {
     subtotalEl.textContent = '$0.00';
     return;
   }
-  
+
   cart.forEach((item, idx) => {
     const div = document.createElement('div');
     div.className = 'cart-item';
@@ -124,14 +123,21 @@ function openCheckout(){
     alert('Your cart is empty — add something first.');
     return;
   }
-  $('#checkoutModal').setAttribute('aria-hidden','false');
-  $('#checkoutModal').style.opacity = '1';
+  const modal = $('#checkoutModal');
+  modal.setAttribute('aria-hidden','false');
+  modal.style.opacity = '1';
   $('#checkoutForm').style.display = 'block';
   $('#checkoutThanks').hidden = true;
 }
+
 function closeCheckout(success){
-  $('#checkoutModal').setAttribute('aria-hidden','true');
+  const modal = $('#checkoutModal');
+  modal.setAttribute('aria-hidden','true');
+  modal.style.opacity = '0';
+  $('#checkoutForm').style.display = 'block'; // reset form if needed
 }
+
+/* ---------- Simulate place order ---------- */
 function simulatePlaceOrder(formData){
   $('#checkoutForm').style.display = 'none';
   $('#checkoutThanks').hidden = false;
