@@ -6,7 +6,7 @@
   <title>Urban Vibe</title>
 
   <!-- Link to CSS -->
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div class="page-bg"></div>
@@ -39,100 +39,178 @@
           <button class="btn ghost" onclick="openContact()">Contact</button>
         </div>
       </div>
+    </section>
 
     <!-- PRODUCTS -->
     <section id="productsSection" class="products">
       <h3 class="section-title">Featured Hoodies</h3>
 
+      <!-- Search bar -->
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search hoodies...">
+        <button id="searchBtn">🔍</button>
+      </div>
+
       <div class="grid" id="productGrid">
-        <!-- Product cards: update HOODIE_IMAGE_X placeholders with your links -->
+        <!-- Product 1 -->
         <article class="product card" data-price="49.99">
           <div class="card-media">
             <img src="https://freshcleantees.com/cdn/shop/files/Black-Hoodie-Model-Front_x600.jpg?v=1734987639" alt="Urban Black Hoodie">
           </div>
           <div class="card-body">
             <h4 class="product-title">Urban Black Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$49.99</div>
-              <button class="btn add" onclick="addToCart('Urban Black Hoodie', 'https://freshcleantees.com/cdn/shop/files/Black-Hoodie-Model-Front_x600.jpg?v=1734987639', 49.99)">Add</button>
+            <div class="price">$49.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Urban Black Hoodie','https://freshcleantees.com/cdn/shop/files/Black-Hoodie-Model-Front_x600.jpg?v=1734987639',49.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 2 -->
         <article class="product card" data-price="54.99">
-          <div class="card-media"><img src="https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center" alt="Urban Grey Hoodie"></div>
+          <div class="card-media">
+            <img src="https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center" alt="Urban Grey Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Urban Grey Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$54.99</div>
-              <button class="btn add" onclick="addToCart('Urban Grey Hoodie', 'https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center', 54.99)">Add</button>
+            <div class="price">$54.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Urban Grey Hoodie','https://cdn.shopify.com/s/files/1/2987/0758/files/100202050-320320-grey-melange-05.jpg?v=1752541062&width=400&height=515&crop=center',54.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 3 -->
         <article class="product card" data-price="59.99">
-          <div class="card-media"><img src="https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225" alt="Retro Lightblue Hoodie"></div>
+          <div class="card-media">
+            <img src="https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225" alt="Retro Lightblue Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Retro Lightblue Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$59.99</div>
-              <button class="btn add" onclick="addToCart('Retro Lightblue Hoodie', 'https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225', 59.99)">Add</button>
+            <div class="price">$59.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Retro Lightblue Hoodie','https://www.pinqponq.com/cdn/shop/files/PPC-HOO-001-30187-pinqponq-Hoodie-Unisex-Pool-Blue-56.jpg?v=1706702225',59.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 4 -->
         <article class="product card" data-price="42.99">
-          <div class="card-media"><img src="https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp" alt="Oversized White Hoodie"></div>
+          <div class="card-media">
+            <img src="https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp" alt="Oversized White Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Oversized White Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$42.99</div>
-              <button class="btn add" onclick="addToCart('Oversized White Hoodie', 'https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp', 42.99)">Add</button>
+            <div class="price">$42.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Oversized White Hoodie','https://mediahub.boohooman.com/cmm02584_white_xl?$product_image_category_page$&fmt=webp',42.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 5 -->
         <article class="product card" data-price="47.99">
-          <div class="card-media"><img src="https://www.mytheresa.com/media/1094/1238/100/87/P00834915_b2.jpg" alt="Oversized Brown Hoodie"></div>
+          <div class="card-media">
+            <img src="https://www.mytheresa.com/media/1094/1238/100/87/P00834915_b2.jpg" alt="Oversized Brown Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Oversized Brown Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$47.99</div>
-              <button class="btn add" onclick="addToCart('Oversized Brown Hoodie', 'https://www.mytheresa.com/media/1094/1238/100/87/P00834915_b2.jpg', 47.99)">Add</button>
+            <div class="price">$47.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Oversized Brown Hoodie','https://www.mytheresa.com/media/1094/1238/100/87/P00834915_b2.jpg',47.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 6 -->
         <article class="product card" data-price="52.99">
-          <div class="card-media"><img src="https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/15295828/2021/8/30/955e1cd8-74d4-41ed-82da-23bedfb69f4c1630296211757Cottonhoodie1.jpg" alt="Dark Green Hoodie"></div>
+          <div class="card-media">
+            <img src="https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/15295828/2021/8/30/955e1cd8-74d4-41ed-82da-23bedfb69f4c1630296211757Cottonhoodie1.jpg" alt="Dark Green Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Dark Green Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$52.99</div>
-              <button class="btn add" onclick="addToCart('Dark Green Hoodie', 'https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/15295828/2021/8/30/955e1cd8-74d4-41ed-82da-23bedfb69f4c1630296211757Cottonhoodie1.jpg', 52.99)">Add</button>
+            <div class="price">$52.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Dark Green Hoodie','https://assets.myntassets.com/h_1440,q_75,w_1080/v1/assets/images/15295828/2021/8/30/955e1cd8-74d4-41ed-82da-23bedfb69f4c1630296211757Cottonhoodie1.jpg',52.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 7 -->
         <article class="product card" data-price="45.99">
-          <div class="card-media"><img src="https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg" alt="Navy Blue Hoodie"></div>
+          <div class="card-media">
+            <img src="https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg" alt="Navy Blue Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Navy Blue Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$45.99</div>
-              <button class="btn add" onclick="addToCart('Navy Blue Hoodie', 'https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg', 45.99)">Add</button>
+            <div class="price">$45.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Navy Blue Hoodie','https://i.pinimg.com/474x/48/71/94/487194e3f3eb898b66f3ff62c05a0cc1.jpg',45.99,this.closest('.product'))">Add</button>
           </div>
         </article>
 
+        <!-- Product 8 -->
         <article class="product card" data-price="55.99">
-          <div class="card-media"><img src="https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg" alt="Orange Hoodie"></div>
+          <div class="card-media">
+            <img src="https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg" alt="Orange Hoodie">
+          </div>
           <div class="card-body">
             <h4 class="product-title">Orange Hoodie</h4>
-            <div class="card-footer">
-              <div class="price">$55.99</div>
-              <button class="btn add" onclick="addToCart('Orange Hoodie', 'https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg', 55.99)">Add</button>
+            <div class="price">$55.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
             </div>
+            <button class="btn add" onclick="addToCart('Orange Hoodie','https://cdn.pixelspray.io/v2/black-bread-289bfa/woTKH5/wrkr/t.resize(h:1000,w:820)/data/Superdry/14092023/410385444005_1.jpg',55.99,this.closest('.product'))">Add</button>
+          </div>
+        </article>
+
+        <!-- Product 9 -->
+        <article class="product card" data-price="55.99">
+          <div class="card-media">
+            <img src="https://eu.youngla.com/cdn/shop/files/5028_purple-wash_0016_12_13_johnny_ecomm.jpg?v=1733527170&width=2400" alt="Supersized Chaos Hoodie">
+          </div>
+          <div class="card-body">
+            <h4 class="product-title">Supersized Chaos Hoodie</h4>
+            <div class="price">$55.99</div>
+            <div class="size-select">
+              <button onclick="selectSize(this)" class="active">S</button>
+              <button onclick="selectSize(this)">M</button>
+              <button onclick="selectSize(this)">L</button>
+              <button onclick="selectSize(this)">XL</button>
+            </div>
+            <button class="btn add" onclick="addToCart('Supersized Chaos Hoodie','https://eu.youngla.com/cdn/shop/files/5028_purple-wash_0016_12_13_johnny_ecomm.jpg?v=1733527170&width=2400',55.99,this.closest('.product'))">Add</button>
           </div>
         </article>
       </div>
@@ -163,7 +241,7 @@
     </div>
   </aside>
 
-  <!-- CHECKOUT MODAL (client-side simulation) -->
+  <!-- CHECKOUT MODAL -->
   <div id="checkoutModal" class="modal" aria-hidden="true">
     <div class="modal-card">
       <button class="icon-btn modal-close" id="closeCheckout">✕</button>
@@ -195,6 +273,6 @@
   </div>
 
   <!-- Link to JS -->
-  <script src="script.js"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
