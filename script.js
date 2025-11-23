@@ -1,4 +1,4 @@
-/* ========== Urban Vibe — script.js (Updated) ========== */
+/* ========== Urban Vibe — script.js ========== */
 /* Cart + localStorage, tilt effect for cards, checkout simulation */
 
 /* ---------- Utilities ---------- */
@@ -24,8 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // checkout
   $('#checkoutBtn').addEventListener('click', openCheckout);
-  $('#closeCheckout').addEventListener('click', () => closeCheckout(false));
 
+  // attach both checkout close buttons
+  const checkoutCloseBtns = [$('#closeCheckout'), $('#checkoutThanks button')].filter(Boolean);
+  checkoutCloseBtns.forEach(btn => btn.addEventListener('click', () => closeCheckout(false)));
+
+  // form submission
   $('#checkoutForm').addEventListener('submit', (e) => {
     e.preventDefault();
     simulatePlaceOrder(new FormData(e.target));
@@ -40,16 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // attach tilt effect on product cards
   setupCardTilt();
 
-  // close cart clicking outside — FIXED: only closes if click outside drawer and outside cart button
+  // close cart clicking outside
   document.body.addEventListener('click', (ev) => {
     const cartDrawer = $('#cartDrawer');
     if (
       cartDrawer.classList.contains('open') &&
       !ev.target.closest('.cart-drawer') &&
       !ev.target.closest('#openCart')
-    ) {
-      closeCart();
-    }
+    ) closeCart();
+  });
+
+  // close checkout modal by clicking overlay
+  $('#checkoutModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeCheckout(false);
   });
 });
 
@@ -60,15 +67,11 @@ function saveCart() {
 
 function addToCart(name, img, price) {
   const idx = cart.findIndex(i => i.name === name);
-  if (idx > -1) {
-    cart[idx].qty += 1;
-  } else {
-    cart.push({ name, img, price: Number(price), qty: 1 });
-  }
+  if (idx > -1) cart[idx].qty += 1;
+  else cart.push({ name, img, price: Number(price), qty: 1 });
   saveCart();
   updateCartUI();
-  const cb = $('#openCart');
-  cb.animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 180 });
+  $('#openCart').animate([{ transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 180 });
 }
 
 function updateCartUI() {
@@ -78,7 +81,7 @@ function updateCartUI() {
 
 function renderCart() {
   cartItemsEl.innerHTML = '';
-  if (cart.length === 0) {
+  if (!cart.length) {
     cartItemsEl.innerHTML = '<div class="small" style="padding:12px;color:var(--muted)">Your cart is empty — add some hoodies.</div>';
     subtotalEl.textContent = '$0.00';
     return;
@@ -91,7 +94,7 @@ function renderCart() {
       <img src="${item.img}" alt="${escapeHtml(item.name)}">
       <div style="flex:1">
         <strong>${escapeHtml(item.name)}</strong>
-        <div class="small">$${(item.price).toFixed(2)}</div>
+        <div class="small">$${item.price.toFixed(2)}</div>
         <div class="qty-controls small" style="margin-top:8px">
           <button onclick="decreaseQty(${idx}); event.stopPropagation();">−</button>
           <div style="min-width:26px;text-align:center">${item.qty}</div>
@@ -119,13 +122,14 @@ function closeCart(){ const drawer = $('#cartDrawer'); drawer.classList.remove('
 
 /* ---------- Checkout (client-side demo) ---------- */
 function openCheckout(){
-  if (cart.length === 0) {
+  if (!cart.length) {
     alert('Your cart is empty — add something first.');
     return;
   }
   const modal = $('#checkoutModal');
   modal.setAttribute('aria-hidden','false');
   modal.style.opacity = '1';
+  modal.style.pointerEvents = 'auto';
   $('#checkoutForm').style.display = 'block';
   $('#checkoutThanks').hidden = true;
 }
@@ -134,10 +138,11 @@ function closeCheckout(success){
   const modal = $('#checkoutModal');
   modal.setAttribute('aria-hidden','true');
   modal.style.opacity = '0';
-  $('#checkoutForm').style.display = 'block'; // reset form if needed
+  modal.style.pointerEvents = 'none';
+  $('#checkoutForm').style.display = 'block';
 }
 
-/* ---------- Simulate place order ---------- */
+/* ---------- Simulate order placement ---------- */
 function simulatePlaceOrder(formData){
   $('#checkoutForm').style.display = 'none';
   $('#checkoutThanks').hidden = false;
@@ -147,7 +152,7 @@ function simulatePlaceOrder(formData){
   tinyConfetti();
 }
 
-/* ---------- Tiny confetti (small, local) ---------- */
+/* ---------- Tiny confetti effect ---------- */
 function tinyConfetti(){
   const count = 30;
   for (let i=0;i<count;i++){
@@ -165,7 +170,7 @@ function tinyConfetti(){
     d.animate([
       { transform: `translateY(0) rotate(${Math.random()*360}deg)`, opacity:1 },
       { transform: `translateY(180px) rotate(${Math.random()*720}deg)`, opacity:0 }
-    ], { duration: 900 + Math.random()*600, easing:'cubic-bezier(.2,.7,.2,1)' })
+    ], { duration: 900 + Math.random()*600, easing:'cubic-bezier(.2,.7,.2,1)' });
     setTimeout(()=> d.remove(), 1800 + Math.random()*800);
   }
 }
@@ -176,7 +181,7 @@ function toggleTheme(){
   localStorage.setItem('uv_theme', isLight ? 'light' : 'dark');
 }
 
-/* ---------- Simple helpers ---------- */
+/* ---------- Helpers ---------- */
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 /* ---------- Card tilt effect (mouse) ---------- */
@@ -191,8 +196,8 @@ function setupCardTilt(){
       const cy = rect.height / 2;
       const dx = (x - cx) / cx;
       const dy = (y - cy) / cy;
-      const tiltX = (dy * 6);
-      const tiltY = (dx * -8);
+      const tiltX = dy * 6;
+      const tiltY = dx * -8;
       const scale = 1.025;
       card.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(${scale})`;
       const img = card.querySelector('.card-media img');
@@ -209,9 +214,9 @@ function setupCardTilt(){
   });
 }
 
-/* ---------- Helpers for product buttons ---------- */
+/* ---------- Scroll / Contact ---------- */
 function scrollToProducts(){ document.getElementById('productsSection').scrollIntoView({behavior:'smooth'}); }
 function openContact(){ alert('Contact: contact@urbanvibe.com'); }
 
-/* ---------- Accessibility ---------- */
+/* ---------- Accessibility: Escape key closes cart & checkout ---------- */
 document.addEventListener('keydown',(e)=>{ if (e.key==='Escape'){ closeCart(); closeCheckout(false); }});
