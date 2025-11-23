@@ -274,20 +274,21 @@ body {
 }
 
 /* ---------- Cart drawer ---------- */
-.cart-drawer{
-  position:fixed;
-  right:20px;
-  top:72px;
-  width:360px;
-  height:calc(100vh - 92px);
-  background:linear-gradient(180deg,var(--bg-900), var(--bg-800));
-  border-radius:14px;
-  padding:18px;
-  transform:translateX(130%);
-  transition:transform .28s cubic-bezier(.2,.9,.2,1);
-  box-shadow:0 30px 80px rgba(2,6,23,0.8);
-  z-index:9999;
-  pointer-events:auto;
+.cart-drawer {
+  position: fixed;
+  right: 20px;
+  top: 72px;
+  width: 360px;
+  height: calc(100vh - 92px);
+  background: rgba(11, 18, 32, 0.3); /* semi-transparent, adjust alpha 0-1 */
+  border-radius: 14px;
+  padding: 18px;
+  transform: translateX(130%);
+  transition: transform .28s cubic-bezier(.2,.9,.2,1);
+  box-shadow: 0 30px 80px rgba(2,6,23,0.8);
+  z-index: 9999;
+  pointer-events: auto;
+  backdrop-filter: blur(6px); /* optional frosted glass effect */
 }
 .cart-drawer.open{
   transform:translateX(0);
