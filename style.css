@@ -127,13 +127,47 @@ body {
   box-shadow:0 18px 40px rgba(2,6,23,0.7)
 }
 
+/* ---------- Search bar ---------- */
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+#searchInput {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--card);
+  color: var(--text);
+  font-size: 14px;
+}
+#searchInput::placeholder {
+  color: var(--muted);
+}
+#searchBtn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #07121a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+#searchBtn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
 /* ---------- Products grid & cards ---------- */
 .section-title{font-size:24px;margin:26px 0;color:var(--text)}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
-  margin-bottom:40px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
+  gap: 18px;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 .product.card{
   background: linear-gradient(180deg,var(--card), rgba(255,255,255,0.01));
@@ -191,6 +225,33 @@ body {
   transform: scale(1.08);
   box-shadow: 0 6px 20px rgba(255,107,53,0.6);
   filter: brightness(1.05);
+}
+
+/* ---------- Size selector styling (pill buttons) ---------- */
+.size-select {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.size-select button {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 999px; /* pill shape */
+  border: 1px solid var(--muted);
+  background: var(--card);
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.size-select button.active {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #07121a;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(255,107,53,0.4);
+}
+.size-select button:hover {
+  filter: brightness(1.1);
 }
 
 /* ---------- Footer ---------- */
@@ -283,19 +344,16 @@ body {
 .wide{width:100%}
 
 /* ---------- Responsive / Mobile Optimizations ---------- */
-/* Tablets */
 @media (max-width:1100px){
   .grid{grid-template-columns:repeat(3,1fr)}
   .hero{grid-template-columns:1fr 320px}
 }
-/* Small tablets / large phones */
 @media (max-width:880px){
   .grid{grid-template-columns:repeat(2,1fr)}
   .hero{grid-template-columns:1fr}
   .hero-media img{max-width:100%; height:auto;}
   .hero-actions{flex-direction:column;gap:10px}
 }
-/* Phones */
 @media (max-width:520px){
   .grid{grid-template-columns:1fr}
   .site-header{padding:12px; flex-direction:column; align-items:flex-start; gap:10px;}
