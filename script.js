@@ -15,28 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#year').textContent = new Date().getFullYear();
   updateCartUI();
 
-  // Cart open/close
   $('#openCart').addEventListener('click', openCart);
   $('#closeCart').addEventListener('click', closeCart);
 
-  // Checkout modal open/close
   $('#checkoutBtn').addEventListener('click', openCheckout);
   $('#closeCheckout').addEventListener('click', closeCheckout);
 
-  // Checkout form submission
   $('#checkoutForm').addEventListener('submit', (e) => {
     e.preventDefault();
     simulatePlaceOrder(new FormData(e.target));
   });
 
-  // Theme toggle
   $('#themeToggle').addEventListener('click', toggleTheme);
-  if(localStorage.getItem('uv_theme') === 'light') document.documentElement.classList.add('light');
+  if(localStorage.getItem('uv_theme') === 'light')
+    document.documentElement.classList.add('light');
 
-  // Card tilt
   setupCardTilt();
 
-  // Close cart clicking outside
   document.body.addEventListener('click', (ev) => {
     const cartDrawer = $('#cartDrawer');
     if(cartDrawer.classList.contains('open') &&
@@ -46,23 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ESC key
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape'){ closeCart(); closeCheckout(); }
   });
 
-  // ---------- Search ----------
   if(searchInput && searchBtn){
     searchBtn.addEventListener('click', () => filterProducts(searchInput.value));
-    searchInput.addEventListener('keyup', (e) => {
-      if(e.key === 'Enter') filterProducts(searchInput.value);
-      else filterProducts(searchInput.value); // optional live search
-    });
+    searchInput.addEventListener('keyup', () => filterProducts(searchInput.value));
   }
 
-  // ---------- Attach Add-to-Cart buttons & size buttons ----------
+  /* ---------- Attach Add-to-Cart + Size Buttons ---------- */
   $$('.product.card').forEach(card => {
-    // Handle pill-size buttons
+
     const sizeBtns = card.querySelectorAll('.size-select button');
     sizeBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -72,17 +62,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Attach add-to-cart
     const addBtn = card.querySelector('.btn.add');
     if(addBtn){
       addBtn.addEventListener('click', (e)=>{
         e.stopPropagation();
+
         const name = card.querySelector('.product-title').textContent;
-        const price = card.querySelector('.price').textContent.replace('$','');
+
+        // FIX: Proper EGP price extraction
+        let priceText = card.querySelector('.price').textContent;
+        priceText = priceText.replace(/EGP/gi,'').replace(/[^0-9.]/g,'');
+
+        const price = Number(priceText);
+
         const img = card.querySelector('.card-media img').src;
-        let size = 'M'; // default
+
+        let size = "M";
         const activeSize = card.querySelector('.size-select button.active');
         if(activeSize) size = activeSize.textContent.trim().toUpperCase();
+
         addToCart(name,img,price,size);
       });
     }
@@ -93,11 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function saveCart(){ localStorage.setItem('uv_cart', JSON.stringify(cart)); }
 
 function addToCart(name,img,price,size='M'){
-  // Normalize name for duplicate check
   const cleanName = name.trim().toLowerCase();
   const cleanSize = size.trim().toUpperCase();
 
-  // Find existing item with same name + size
   const idx = cart.findIndex(i => i.name.toLowerCase() === cleanName && i.size === cleanSize);
 
   if(idx > -1){
@@ -117,17 +113,20 @@ function addToCart(name,img,price,size='M'){
   $('#openCart').animate([{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:180});
 }
 
-function updateCartUI(){ 
-  cartCountEl.textContent = cart.reduce((s,i)=>s+i.qty,0); 
-  renderCart(); 
+function updateCartUI(){
+  cartCountEl.textContent = cart.reduce((s,i)=>s+i.qty,0);
+  renderCart();
 }
 
 function renderCart(){
   cartItemsEl.innerHTML = '';
+
   if(cart.length===0){
     cartItemsEl.innerHTML = '<div class="small" style="padding:12px;color:var(--muted)">Your cart is empty — add some hoodies.</div>';
-    subtotalEl.textContent = '$0.00'; return;
+    subtotalEl.textContent = 'EGP 0.00';
+    return;
   }
+
   cart.forEach((item,idx)=>{
     const div=document.createElement('div');
     div.className='cart-item';
@@ -135,7 +134,7 @@ function renderCart(){
       <img src="${item.img}" alt="${escapeHtml(item.name)}">
       <div style="flex:1">
         <strong>${escapeHtml(item.name)} (${item.size})</strong>
-        <div class="small">$${item.price.toFixed(2)}</div>
+        <div class="small">EGP ${item.price.toFixed(2)}</div>
         <div class="qty-controls small" style="margin-top:8px">
           <button onclick="decreaseQty(${idx});event.stopPropagation();">−</button>
           <div style="min-width:26px;text-align:center">${item.qty}</div>
@@ -146,8 +145,9 @@ function renderCart(){
     `;
     cartItemsEl.appendChild(div);
   });
+
   const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
-  subtotalEl.textContent=`$${subtotal.toFixed(2)}`;
+  subtotalEl.textContent = `EGP ${subtotal.toFixed(2)}`;
 }
 
 function increaseQty(i){ cart[i].qty++; saveCart(); updateCartUI(); }
@@ -155,14 +155,14 @@ function decreaseQty(i){ cart[i].qty--; if(cart[i].qty<=0) cart.splice(i,1); sav
 function removeItem(i){ cart.splice(i,1); saveCart(); updateCartUI(); }
 
 /* ---------- Cart drawer ---------- */
-function openCart(){ 
-  const drawer=$('#cartDrawer'); 
-  drawer.classList.add('open'); 
+function openCart(){
+  const drawer=$('#cartDrawer');
+  drawer.classList.add('open');
   drawer.setAttribute('aria-hidden','false');
 }
-function closeCart(){ 
-  const drawer=$('#cartDrawer'); 
-  drawer.classList.remove('open'); 
+function closeCart(){
+  const drawer=$('#cartDrawer');
+  drawer.classList.remove('open');
   drawer.setAttribute('aria-hidden','true');
 }
 
@@ -182,7 +182,7 @@ function closeCheckout(){
   $('#checkoutForm').style.display='block';
   $('#checkoutThanks').hidden=true;
 }
-function simulatePlaceOrder(formData){
+function simulatePlaceOrder(){
   $('#checkoutForm').style.display='none';
   $('#checkoutThanks').hidden=false;
   cart=[]; saveCart(); updateCartUI();
@@ -222,8 +222,16 @@ function toggleTheme(){
 }
 
 /* ---------- Helpers ---------- */
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function scrollToProducts(){ document.getElementById('productsSection').scrollIntoView({behavior:'smooth'}); }
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>(
+    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]
+  ));
+}
+
+function scrollToProducts(){
+  document.getElementById('productsSection').scrollIntoView({behavior:'smooth'});
+}
+
 function openContact(){ alert('Contact: contact@urbanvibe.com'); }
 
 /* ---------- Card tilt ---------- */
